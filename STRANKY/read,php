@@ -1,0 +1,68 @@
+<?php
+$servername = "your_database_server";
+$username = "your_username";
+$password = "your_password";
+$dbname = "your_database_name";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Assuming you have a user authentication system and have retrieved the user's username
+$user_username = "friend1"; // Replace with the actual username of the logged-in user
+
+// Query the database to fetch the user's content preference
+$sql = "SELECT cp.preference FROM users u
+        LEFT JOIN content_preferences cp ON u.id = cp.user_id
+        WHERE u.username = '$user_username'";
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $content_preference = $row["preference"];
+} else {
+    // Default content preference if the user is not found
+    $content_preference = "default"; // You can define other default content here
+}
+
+// Query the database to retrieve content items based on the user's content preference
+$sql = "SELECT title FROM content_items WHERE category = '$content_preference'";
+$result = $conn->query($sql);
+
+$content_items = [];
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $content_items[] = $row["title"];
+    }
+}
+
+// Close the database connection
+$conn->close();
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Content Example</title>
+</head>
+<body>
+    <h1>Welcome, <?php echo $user_username; ?>!</h1>
+
+    <?php
+    if (empty($content_items)) {
+        echo 'No content available for your preference.';
+    } else {
+        echo '<h2>Your Recommended Content:</h2>';
+        echo '<ul>';
+        foreach ($content_items as $item) {
+            echo '<li>' . $item . '</li>';
+        }
+        echo '</ul>';
+    }
+    ?>
+</body>
+</html>

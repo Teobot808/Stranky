@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+     <!-- Top navigation -->
+<div class="topnav">
+
+    <!-- Centered link -->
+    <div class="topnav-centered">
+      
+    </div>
+  
+    <!-- Left-aligned links (default) -->
+    <a href="index.html" class="active">Home</a>
+    <div class="topnav-greenpower">
+        <a href="Greenpower_page.html">Greenpower</a>
+    </div>
+    
+    <a href="Something.html">Something</a>
+   
+    <!-- Right-aligned links -->
+    <div class="topnav-right">
+      <a href="About.html">About</a>
+      <a href="loginpage.html">Login</a>
+    </div>
+  
+  </div>
+</head>
+<body>
+    <h1>Something page</h1>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae ex enim, ad, est, esse nesciunt voluptatem autem adipisci doloribus aperiam fugiat ipsum. Pariatur exercitationem voluptate minus odio ex adipisci hic?</p>
+
+    <?php
+    // Establish a database connection (similar to the previous script)
+    
+    // Retrieve file paths from the database
+    $sql = "SELECT file_path FROM file_paths";
+    $result = $db->query($sql);
+    
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $file_path = $row['file_path'];
+            // Use $file_path for dynamic content generation
+            echo "File path: $file_path<br>";
+        }
+    } else {
+        echo "No file paths found in the database.";
+    }
+    
+    $db->close();
+    echo "nieco"
+    ?>
+    
+  </body>
+</html>
